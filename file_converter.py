@@ -21,7 +21,7 @@ if files:
             if ext == 'csv':
                 df = pd.read_csv(file)
             else:
-                df = pd.read_excel(file, engine="openpyxl")  # Safer alternative to xlsxwriter
+                df = pd.read_excel(file, engine="openpyxl")  # Safer alternative to xlsxwriter for reading
 
             # 🔍 Show file preview
             st.subheader(f"📋 {file.name} - Preview")
@@ -42,7 +42,12 @@ if files:
                 st.dataframe(df.head())
 
             # 🔄 Select columns for conversion
-            selected_columns = st.multiselect(f"🎯 Select Columns to Keep - {file.name}", df.columns.tolist(), key=f"select_columns_{file.name}")
+            selected_columns = st.multiselect(
+                f"🎯 Select Columns to Keep - {file.name}", 
+                df.columns.tolist(), 
+                default=df.columns.tolist(), 
+                key=f"select_columns_{file.name}"
+            )
             if selected_columns:
                 df = df[selected_columns]
                 st.success("✅ Selected columns retained!")
